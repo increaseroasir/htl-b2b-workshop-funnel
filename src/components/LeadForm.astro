@@ -1,0 +1,99 @@
+---
+import { funnel } from '../data/funnel';
+
+interface Props {
+  id?: string;
+}
+
+const { id = 'ticket' } = Astro.props;
+const { ticket } = funnel;
+const showError = Astro.url.searchParams.get('error') === '1';
+---
+
+<form class="lead-form" id={id} action="/api/lead" method="POST" novalidate>
+  {showError && <p class="form-error">{ticket.errors.generic}</p>}
+
+  <label class="input-shell" for={`${id}-name`}>
+    <span class="prefix" aria-hidden="true">{ticket.fields.name.emoji}</span>
+    <input
+      id={`${id}-name`}
+      name="name"
+      type="text"
+      required
+      autocomplete={ticket.fields.name.autocomplete}
+      placeholder={ticket.fields.name.placeholder}
+    />
+  </label>
+  <span class="field-error" data-error-for="name"></span>
+
+  <label class="input-shell" for={`${id}-email`}>
+    <span class="prefix" aria-hidden="true">{ticket.fields.email.emoji}</span>
+    <input
+      id={`${id}-email`}
+      name="email"
+      type="email"
+      required
+      autocomplete={ticket.fields.email.autocomplete}
+      placeholder={ticket.fields.email.placeholder}
+    />
+  </label>
+  <span class="field-error" data-error-for="email"></span>
+
+  <button class="btn-pill btn-wide btn-stack" type="submit" data-submit>
+    <span>{ticket.submit}</span>
+    <small>{ticket.submitWhen}</small>
+  </button>
+</form>
+
+<script
+  is:inline
+  define:vars={{ errors: ticket.errors, pending: ticket.submitPending }}
+>
+  (function () {
+    const formEl = document.currentScript.previousElementSibling;
+    if (!(formEl instanceof HTMLFormElement)) return;
+
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function value(name) {
+      const input = formEl.elements.namedItem(name);
+      return input instanceof HTMLInputElement ? input.value.trim() : '';
+    }
+
+    function setError(name, message) {
+      const input = formEl.elements.namedItem(name);
+      const slot = formEl.querySelector('[data-error-for="' + name + '"]');
+      if (input instanceof HTMLInputElement) {
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      }
+      if (slot) slot.textContent = message;
+    }
+
+    function validate() {
+      const name = value('name');
+      const email = value('email');
+      const next = {
+        name: name.length >= 2 ? '' : errors.name,
+        email: emailRe.test(email) ? '' : errors.email,
+      };
+      setError('name', next.name);
+      setError('email', next.email);
+      return !next.name && !next.email;
+    }
+
+    formEl.addEventListener('submit', function (event) {
+      if (!validate()) {
+        event.preventDefault();
+        return;
+      }
+      try {
+        sessionStorage.setItem('lead_name', value('name'));
+        sessionStorage.setItem('lead_email', value('email'));
+      } catch (err) {}
+      const button = formEl.querySelector('[data-submit]');
+      if (button instanceof HTMLButtonElement) {
+        button.disabled = true;
+      }
+    });
+  })();
+</script>
