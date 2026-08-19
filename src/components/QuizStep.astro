@@ -1,0 +1,74 @@
+---
+import type { QuizStep as Step } from '../data/funnel';
+import { funnel } from '../data/funnel';
+
+interface Props {
+  step: Step;
+}
+
+const { step } = Astro.props;
+---
+
+<div class="quiz-shell">
+  <p class="eyebrow">{step.stepLabel}</p>
+  <h1>{step.question}</h1>
+  <div class="quiz-grid" data-quiz>
+    {step.options.map((opt) => (
+      <button class="quiz-tile" type="button" data-value={opt.value}>
+        <span class="quiz-emoji">{opt.emoji}</span>
+        <span>{opt.label}</span>
+      </button>
+    ))}
+  </div>
+  <div class="trust-bar">
+    <div class="award-chips">
+      {funnel.trust.chips.map((chip) => (
+        <span class={`chip chip-${chip.tone}`}>{chip.label}</span>
+      ))}
+    </div>
+    <p class="trust-rating">{funnel.trust.rating}</p>
+  </div>
+</div>
+
+<div class="interstitial" data-interstitial>
+  <div>
+    <div class="spinner" aria-hidden="true"></div>
+    <p>{step.interstitial || 'Validating Results…'}</p>
+  </div>
+</div>
+
+<script
+  is:inline
+  define:vars={{
+    storageKey: step.storageKey,
+    next: step.next,
+    interstitial: step.interstitial,
+    wait: step.interstitialMs,
+  }}
+>
+  (function () {
+    const grid = document.querySelector('[data-quiz]');
+    const overlay = document.querySelector('[data-interstitial]');
+    if (!grid) return;
+
+    function go() {
+      window.location.href = next;
+    }
+
+    grid.addEventListener('click', function (event) {
+      const btn = event.target.closest('[data-value]');
+      if (!btn) return;
+      try {
+        sessionStorage.setItem('quiz_' + storageKey, btn.getAttribute('data-value') || '');
+      } catch (err) {}
+      if (interstitial) {
+        if (overlay) {
+          overlay.classList.add('open');
+        }
+        window.setTimeout(go, wait || 700);
+      } else {
+        go();
+      }
+    });
+  })();
+</script>
