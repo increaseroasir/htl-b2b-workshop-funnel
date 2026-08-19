@@ -1,0 +1,15 @@
+---
+interface Props {
+  label?: string;
+  compact?: boolean;
+}
+
+const { label = 'Video', compact = false } = Astro.props;
+---
+
+<div class:list={['video-slot', compact && 'video-slot--sm']} role="img" aria-label={label}>
+  <div class="video-slot-label">
+    <span class="play" aria-hidden="true"></span>
+    <span>{label}</span>
+  </div>
+</div>
