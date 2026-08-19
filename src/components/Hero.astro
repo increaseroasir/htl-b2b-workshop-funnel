@@ -1,0 +1,30 @@
+---
+import { funnel } from '../data/funnel';
+
+const { hero, cta } = funnel;
+const loop = [...hero.marquee, ...hero.marquee];
+---
+
+<section class="hero wrap">
+  <a class="brand-mark" href="/" aria-label={funnel.brand.name}>
+    <svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true">
+      <rect width="48" height="48" rx="12" fill="#0B0B0B"></rect>
+      <path d="M28 8L14 26h10l-4 14 16-20H26l2-12z" fill="#fff"></path>
+    </svg>
+  </a>
+  <p class="eyebrow">{hero.eyebrow}</p>
+  <p class="scarcity">
+    <span class="dot" aria-hidden="true"></span>
+    <s>{hero.scarcity.was}</s>
+    <span>{hero.scarcity.now} · {hero.scarcity.remaining}</span>
+  </p>
+  <h1>{hero.headline}</h1>
+  <p class="lede">{hero.subhead}</p>
+  <a class="btn-pill" href={cta.href}>{cta.label}</a>
+  <p class="trust-line">{hero.trustLine}</p>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {loop.map((word) => <span>{word}</span>)}
+    </div>
+  </div>
+</section>
