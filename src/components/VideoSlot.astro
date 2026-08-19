@@ -1,15 +1,1 @@
----
-interface Props {
-  label?: string;
-  compact?: boolean;
-}
-
-const { label = 'Video', compact = false } = Astro.props;
----
-
-<div class:list={['video-slot', compact && 'video-slot--sm']} role="img" aria-label={label}>
-  <div class="video-slot-label">
-    <span class="play" aria-hidden="true"></span>
-    <span>{label}</span>
-  </div>
-</div>
+LS0tCmludGVyZmFjZSBQcm9wcyB7CiAgbGFiZWw/OiBzdHJpbmc7CiAgY29tcGFjdD86IGJvb2xlYW47Cn0KCmNvbnN0IHsgbGFiZWwgPSAnVmlkZW8nLCBjb21wYWN0ID0gZmFsc2UgfSA9IEFzdHJvLnByb3BzOwotLS0KCjxkaXYgY2xhc3M6bGlzdD17Wyd2aWRlby1zbG90JywgY29tcGFjdCAmJiAndmlkZW8tc2xvdC0tc20nXX0gcm9sZT0iaW1nIiBhcmlhLWxhYmVsPXtsYWJlbH0+CiAgPGRpdiBjbGFzcz0idmlkZW8tc2xvdC1sYWJlbCI+CiAgICA8c3BhbiBjbGFzcz0icGxheSIgYXJpYS1oaWRkZW49InRydWUiPjwvc3Bhbj4KICAgIDxzcGFuPntsYWJlbH08L3NwYW4+CiAgPC9kaXY+CjwvZGl2Pgo=

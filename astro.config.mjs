@@ -1,9 +1,1 @@
-import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
-
-export default defineConfig({
-  adapter: node({
-    mode: 'standalone',
-  }),
-  session: false,
-});
+aW1wb3J0IHsgZGVmaW5lQ29uZmlnIH0gZnJvbSAnYXN0cm8vY29uZmlnJzsKaW1wb3J0IGNsb3VkZmxhcmUgZnJvbSAnQGFzdHJvanMvY2xvdWRmbGFyZSc7CgpleHBvcnQgZGVmYXVsdCBkZWZpbmVDb25maWcoewogIGFkYXB0ZXI6IGNsb3VkZmxhcmUoewogICAgcGxhdGZvcm1Qcm94eTogeyBlbmFibGVkOiB0cnVlIH0sCiAgfSksCiAgb3V0cHV0OiAnc2VydmVyJywKICBzZXNzaW9uOiBmYWxzZSwKICB2aXRlOiB7CiAgICBzc3I6IHsKICAgICAgZXh0ZXJuYWw6IFsnbm9kZTpidWZmZXInXSwKICAgIH0sCiAgfSwKfSk7

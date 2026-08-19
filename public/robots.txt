@@ -1,2 +1,1 @@
-User-agent: *
-Disallow: /
+VXNlci1hZ2VudDogKgpEaXNhbGxvdzogLwo=
