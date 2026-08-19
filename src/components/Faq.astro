@@ -1,0 +1,12 @@
+---
+import { funnel } from '../data/funnel';
+---
+
+<div class="faq">
+  {funnel.faq.map((item) => (
+    <details>
+      <summary>{item.q}</summary>
+      <p>{item.a}</p>
+    </details>
+  ))}
+</div>
